@@ -1,19 +1,24 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+admin.initializeApp();
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+const firestore = admin.firestore();
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// Example API endpoint to get data from Firestore
+exports.getProducts = functions.https.onRequest(async (req, res) => {
+    try {
+        const productsRef = firestore.collection('products'); // Example collection
+        const snapshot = await productsRef.get();
+
+        const products = [];
+        snapshot.forEach(doc => {
+            products.push({ id: doc.id, ...doc.data() });
+        });
+
+        res.status(200).json(products);
+    } catch (error) {
+        console.error("Error getting products: ", error);
+        res.status(500).send("Error fetching products");
+    }
+});
