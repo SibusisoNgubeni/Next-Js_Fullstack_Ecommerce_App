@@ -8,21 +8,40 @@ if (!admin.apps.length) {
         credential: cert(serviceAccount),
     });
 }
+
 const db = getFirestore();
 
 export async function GET(request) {
-    try {
-        const categoriesRef = db.collection('categories'); 
-        const snapshot = await categoriesRef.get();
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category'); 
+    const limit = parseInt(searchParams.get('limit')) || 10; 
+    const startAfter = searchParams.get('startAfter'); 
 
-        const categories = [];
+    try {
+        let productsRef = db.collection('products');
+        
+        if (category) {
+            productsRef = productsRef.where('category', '==', category);
+        }
+
+        let snapshot;
+        
+        if (startAfter) {
+            const startAfterDoc = await productsRef.doc(startAfter).get();
+            snapshot = await productsRef.startAfter(startAfterDoc).limit(limit).get();
+        } else {
+            snapshot = await productsRef.limit(limit).get();
+        }
+
+        const products = [];
         snapshot.forEach(doc => {
-            categories.push({ id: doc.id, ...doc.data() });
+            products.push({ id: doc.id, ...doc.data() });
         });
 
-        return new Response(JSON.stringify(categories), { status: 200 });
+        return new Response(JSON.stringify(products), { status: 200 });
     } catch (error) {
-        console.error("Error getting categories: ", error);
-        return new Response("Error fetching categories", { status: 500 });
+        console.error("Error getting products: ", error);
+        return new Response("Error fetching products", { status: 500 });
     }
 }
+

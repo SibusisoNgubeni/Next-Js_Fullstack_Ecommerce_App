@@ -9,7 +9,8 @@
     }
     
     
-    .main-menu:hover,nav.main-menu.expanded {
+    .main-menu:hover,nav
+    .main-menu.expanded {
     width:250px;
     overflow:visible;
     }
