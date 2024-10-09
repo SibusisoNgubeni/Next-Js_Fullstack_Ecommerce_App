@@ -1,25 +1,21 @@
 
 "use client";
-import React, { useEffect, useState } from 'react';
-
-const ProductsPage = () => {
+import { useEffect, useState } from 'react';
+import "../../products.css"
+export default function ProductsPage() {
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true); 
 
-   
     useEffect(() => {
+       
         const fetchProducts = async () => {
             try {
-                const res = await fetch('/api/products');
-                if (!res.ok) {
-                    throw new Error('Failed to fetch products');
-                }
-                const data = await res.json();
-                setProducts(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
+                const response = await fetch('/api/products'); 
+                const data = await response.json();
+                setProducts(data.products || []);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching products: ", error);
                 setLoading(false);
             }
         };
@@ -28,28 +24,21 @@ const ProductsPage = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
+        return <div>Loading...</div>; 
     }
 
     return (
         <div>
             <h1>Products</h1>
-            <ul>
+            <ul className="product-list">
                 {products.map(product => (
                     <li key={product.id}>
                         <h2>{product.name}</h2>
+                        <img src={product.images[0]} className='product-image'/>
                         <p>{product.description}</p>
-                        <img src={product.images}/>
-                        <p>Price: ${product.price}</p>
                     </li>
                 ))}
             </ul>
         </div>
     );
-};
-
-export default ProductsPage;
+}
