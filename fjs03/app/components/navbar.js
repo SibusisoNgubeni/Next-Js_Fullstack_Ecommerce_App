@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import "../globals.css";
 import Image from 'next/image';
 
+
 export default function Navbar({ onSearch }) {
      /** 
       * @type {[boolean, Function]} isVisible - Tracks if the navbar is visible based on scroll direction. 
@@ -54,6 +55,7 @@ export default function Navbar({ onSearch }) {
     }, []);
 
     return (
+        
         <div className={`navbar ${isVisible ? 'visible' : 'hidden'}`}>
             <div className="logo-img">
                 <Image
@@ -65,13 +67,15 @@ export default function Navbar({ onSearch }) {
                 />
             </div>
             <div className='nav-items'>
-                <p> Comparison</p>
-                <p>Wishlist</p>
-                <p>Cart</p>
+                <p className='item'> Comparison</p>
+                <p className='item'>Wishlist</p>
+                <p className='item'>Cart</p>
                 
             </div>
-            <div>
+            <div className='signin'>
+                
                 <p>Signin</p>
+                
             </div>
             
         </div>
