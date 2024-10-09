@@ -39,7 +39,7 @@ export default function DetailedProductPage() {
     return (
         <div>
             <h1>{product.name}</h1>
-            <img src={product.images[0]} alt={product.name} className='product-image' />
+            <img src={product.images} alt={product.name} className='product-image' />
             <p>{product.category}</p>
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>

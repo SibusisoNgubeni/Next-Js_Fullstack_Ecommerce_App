@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import "../globals.css";
+import Image from 'next/image';
 
 export default function Navbar({ onSearch }) {
      /** 
@@ -54,18 +55,25 @@ export default function Navbar({ onSearch }) {
 
     return (
         <div className={`navbar ${isVisible ? 'visible' : 'hidden'}`}>
-            <div className="logo">
-     
+            <div className="logo-img">
+                <Image
+                src='/assets/planet-5-logo.png'
+                alt="Logo" 
+                width={200}
+                height={70}
+                className='logo-img' 
+                />
+            </div>
+            <div className='nav-items'>
+                <p> Comparison</p>
+                <p>Wishlist</p>
+                <p>Cart</p>
+                
             </div>
             <div>
-            <input
-                type="text"
-                placeholder="Search for products..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="search-bar"
-            />
+                <p>Signin</p>
             </div>
+            
         </div>
     );
 }

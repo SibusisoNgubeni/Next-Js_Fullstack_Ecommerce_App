@@ -13,14 +13,14 @@ html::-webkit-scrollbar {
   
  }
  
- .product-grid{
+ .categories{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 200px;
+
  }
 .product-list {
-
+  margin-top: 150px;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;

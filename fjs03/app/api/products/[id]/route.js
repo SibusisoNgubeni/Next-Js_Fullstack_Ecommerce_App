@@ -1,7 +1,7 @@
 import admin from 'firebase-admin';
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import serviceAccount from '../../../serviceAccountKey.json'; 
+import serviceAccount from '../../../../serviceAccountKey.json'; 
 
 if (!admin.apps.length) {
     initializeApp({
@@ -14,12 +14,12 @@ const db = getFirestore();
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category'); 
-    const limit = parseInt(searchParams.get('limit')) || 10; 
+    const limit = parseInt(searchParams.get('limit')) || 20; 
     const startAfter = searchParams.get('startAfter'); 
 
     try {
         let productsRef = db.collection('products');
-        
+
         if (category) {
             productsRef = productsRef.where('category', '==', category);
         }

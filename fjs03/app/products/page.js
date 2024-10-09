@@ -47,7 +47,7 @@ export default function ProductsPage() {
         if (user) {
             router.push(`/detailedproduct/${productId}`);
         } else {
-            router.push('/signup');
+            router.push('/signin');
         }
     };
 
@@ -56,26 +56,23 @@ export default function ProductsPage() {
     }
 
     return (
-        <div>
-            <h1>Products</h1>
-            <select onChange={(e) => setCategory(e.target.value)} value={category}>
-                <option value="">All Categories</option>
-                {categories.map(cat => (
-                    <option key={cat.id} value={cat.name}>{cat.name}</option>
-                ))}
-            </select>
-            <ul className="product-list">
+        <div className="product-list">
+          
+
+            
                 {products.map(product => (
-                    <li key={product.id}>
+                    
                         <div onClick={() => handleProductClick(product.id)} style={{ cursor: 'pointer' }}>
-                            <h2>{product.name}</h2>
-                            <img src={product.images[0]} className='product-image' alt={product.name} />
-                            <p>{product.category}</p>
-                            <p>{product.description}</p>
+                            <div className="product-card">
+                             <h2>{product.title}</h2>
+                             <img src={product.images[0]} className='product-image' alt={product.name} />
+                             <p>${product.price}</p>
+                             <p>{product.category}</p>
+                            </div>
+                            
                         </div>
-                    </li>
+                    
                 ))}
-            </ul>
         </div>
     );
 }
